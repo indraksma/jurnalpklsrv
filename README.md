@@ -1,4 +1,5 @@
 # Sistem Informasi Jurnal Mengajar PKL - SMKN 1 Bawang
+Require : PHP 7.4
 
 Author : Indra Kusuma, S.Kom,
 Instagram : @indrakus_
