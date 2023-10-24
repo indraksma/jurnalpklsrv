@@ -58,6 +58,18 @@
                                 placeholder="Nama Lengkap">
                         </div>
                         <div class="form-group">
+                            <label for="tempatLahir">Tempat Lahir</label>
+                            <input type="text" wire:model.lazy="tempat_lahir"
+                                class="form-control @error('tempat_lahir') is-invalid @enderror" id="tempatLahir"
+                                placeholder="Tempat Lahir">
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggalLahir">Tanggal Lahir</label>
+                            <input type="date" wire:model.lazy="tanggal_lahir"
+                                class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggalLahir"
+                                placeholder="Tanggal Lahir">
+                        </div>
+                        <div class="form-group">
                             <label for="namaSiswa">NIS</label>
                             <input type="text" wire:model.lazy="nis"
                                 class="form-control @error('nis') is-invalid @enderror" id="nisSiswa"

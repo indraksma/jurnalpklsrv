@@ -36,6 +36,12 @@ class SiswaTable extends DataTableComponent
             Column::make("Kelas", "kelas.nama_kelas")
                 ->sortable()
                 ->searchable(),
+            Column::make("Tempat Lahir", "tempat_lahir")
+                ->sortable()
+                ->searchable(),
+            Column::make("Tanggal Lahir", "tanggal_lahir")
+                ->sortable()
+                ->searchable(),
             Column::make('Actions')
                 ->label(function ($row, Column $column) {
                     return view('livewire.action.edit-delete', ['data' => $row]);

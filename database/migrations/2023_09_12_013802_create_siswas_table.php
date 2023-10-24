@@ -17,8 +17,10 @@ class CreateSiswasTable extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nis');
-            $table->enum('jk', ['L','P']);
+            $table->enum('jk', ['L', 'P']);
             $table->bigInteger('kelas_id');
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
             $table->timestamps();
         });
     }

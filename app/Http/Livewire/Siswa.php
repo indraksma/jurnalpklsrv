@@ -17,7 +17,7 @@ class Siswa extends Component
 {
     use LivewireAlert, WithFileUploads;
 
-    public $nama, $nis, $jk, $kelas_id, $siswa_id;
+    public $nama, $nis, $jk, $kelas_id, $siswa_id, $tempat_lahir, $tanggal_lahir;
     public $template_excel;
     public $openModal = false;
     public $iteration = 0;
@@ -56,6 +56,8 @@ class Siswa extends Component
             'nama'      => ['required'],
             'nis'      => ['required'],
             'jk'      => ['required'],
+            'tempat_lahir'      => ['required'],
+            'tanggal_lahir'      => ['required'],
             'kelas_id'      => ['required']
         ], $messages);
 
@@ -64,6 +66,8 @@ class Siswa extends Component
             'nis'      => $this->nis,
             'jk'      => $this->jk,
             'kelas_id'      => $this->kelas_id,
+            'tempat_lahir'      => $this->tempat_lahir,
+            'tanggal_lahir'      => $this->tanggal_lahir,
         ]);
 
         $this->emit('refreshSiswaTable');
@@ -84,6 +88,8 @@ class Siswa extends Component
         $this->siswa_id = $id;
         $this->nama = $siswa->nama;
         $this->nis = $siswa->nis;
+        $this->tempat_lahir = $siswa->tempat_lahir;
+        $this->tanggal_lahir = $siswa->tanggal_lahir;
         $this->jk = $siswa->jk;
         $this->kelas_id = $siswa->kelas_id;
 
