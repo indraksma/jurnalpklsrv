@@ -20,15 +20,15 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('jurnal');
     } else {
-        return view('auth.login');
+        return view('auth.loginsso');
     }
 });
 
-//Route::get('login', [SsoController::class, 'showForm'])->name('login');
+Route::get('login', [SsoController::class, 'showForm'])->name('login');
 Route::get('sso', [SsoController::class, 'sso']);
 Route::get('ssocek', [SsoController::class, 'ssocek'])->name('ssocek');
-// Route::get('ssoout', [SsoController::class, 'logout'])->name('ssoout');
-//Route::get('logout', [SsoController::class, 'logout'])->name('logout');
+Route::get('ssoout', [SsoController::class, 'logout'])->name('ssoout');
+Route::get('logout', [SsoController::class, 'logout'])->name('logout');
 Route::get('home', App\Http\Livewire\Jurnal::class)->name('home')->middleware('auth');
 
 Route::middleware(['auth', 'role:admin|pokja|guru|waka'])->group(function () {
