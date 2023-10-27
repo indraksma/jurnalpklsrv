@@ -20,6 +20,8 @@ class SiswaImport implements ToModel
             'nama' => $row[0],
             'nis' => $row[1],
             'jk' => $row[2],
+            'tempat_lahir' => $row[4],
+            'tanggal_lahir' => $row[5],
             'kelas_id' => $kelas_id->id,
         ]);
     }

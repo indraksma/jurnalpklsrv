@@ -20,15 +20,15 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('jurnal');
     } else {
-        return view('auth.loginsso');
+        return view('auth.login');
     }
 });
 
-Route::get('login', [SsoController::class, 'showForm'])->name('login');
+// Route::get('login', [SsoController::class, 'showForm'])->name('login');
 Route::get('sso', [SsoController::class, 'sso']);
 Route::get('ssocek', [SsoController::class, 'ssocek'])->name('ssocek');
 Route::get('ssoout', [SsoController::class, 'logout'])->name('ssoout');
-Route::get('logout', [SsoController::class, 'logout'])->name('logout');
+// Route::get('logout', [SsoController::class, 'logout'])->name('logout');
 Route::get('home', App\Http\Livewire\Jurnal::class)->name('home')->middleware('auth');
 
 Route::middleware(['auth', 'role:admin|pokja|guru|waka'])->group(function () {
@@ -45,6 +45,7 @@ Route::middleware(['auth', 'role:admin|pokja|guru|waka'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('riwayat-siswa', App\Http\Livewire\RiwayatSiswa::class)->name('riwayat-siswa');
     Route::get('siswa', App\Http\Livewire\Siswa::class)->name('siswa');
     Route::get('users', App\Http\Livewire\Setting\User::class)->name('users');
     //Route::post('import-user', [UserController::class, 'import'])->name('import-user');

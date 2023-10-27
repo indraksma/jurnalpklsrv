@@ -55,14 +55,15 @@
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{asset('profile-user.png')}}" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{ asset('profile-user.png') }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <p class="mb-0 text-white">{{Auth::user()->name}}</p>
+                        <p class="mb-0 text-white">{{ Auth::user()->name }}</p>
                     </div>
                 </div>
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
                         <!-- Main Menu -->
                         {{-- <li
                             class="{{ request()->routeIs(['home', 'example.crud']) ? 'nav-item has-treeview menu-open' : 'nav-item' }}">
@@ -86,81 +87,111 @@
                         </ul>
                         </li> --}}
                         <li class="nav-item">
-                            <a href="{{ route('home') }}" class="{{ request()->routeIs(['home', 'jurnal.tambah', 'jurnal']) ? 'nav-link active' : 'nav-link' }}">
+                            <a href="{{ route('home') }}"
+                                class="{{ request()->routeIs(['home', 'jurnal.tambah', 'jurnal']) ? 'nav-link active' : 'nav-link' }}">
                                 <i class="nav-icon fas fa-file-alt"></i>
                                 <p>Jurnal</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('siswa-pkl') }}" class="{{ request()->routeIs(['siswa-pkl', 'siswa-pkl.tambah']) ? 'nav-link active' : 'nav-link' }}">
+                            <a href="{{ route('siswa-pkl') }}"
+                                class="{{ request()->routeIs(['siswa-pkl', 'siswa-pkl.tambah']) ? 'nav-link active' : 'nav-link' }}">
                                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
                                 <p>Siswa PKL</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('dudi') }}" class="{{ request()->routeIs('dudi') ? 'nav-link active' : 'nav-link' }}">
+                            <a href="{{ route('dudi') }}"
+                                class="{{ request()->routeIs('dudi') ? 'nav-link active' : 'nav-link' }}">
                                 <i class="nav-icon fas fa-warehouse"></i>
                                 <p>DUDI</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('laporan') }}" class="{{ request()->routeIs('laporan') ? 'nav-link active' : 'nav-link' }}">
+                            <a href="{{ route('laporan') }}"
+                                class="{{ request()->routeIs('laporan') ? 'nav-link active' : 'nav-link' }}">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>Laporan</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('nilai') }}" class="{{ request()->routeIs('nilai') ? 'nav-link active' : 'nav-link' }}">
+                            <a href="{{ route('nilai') }}"
+                                class="{{ request()->routeIs('nilai') ? 'nav-link active' : 'nav-link' }}">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>Entri Nilai</p>
                             </a>
                         </li>
                         @if (Auth::user()->hasRole('admin'))
-                        <li class="nav-item">
-                            <a href="{{ route('siswa') }}" class="{{ request()->routeIs('siswa') ? 'nav-link active' : 'nav-link' }}">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>Siswa</p>
-                            </a>
-                        </li>
-                        <li class="{{ request()->routeIs(['users', 'ta', 'jurusan', 'kelas', 'jenis-kegiatan']) ? 'nav-item has-treeview menu-open' : 'nav-item' }}">
-                            <a href="#" class="{{ request()->routeIs(['users', 'ta', 'jurusan', 'kelas', 'jenis-kegiatan']) ? 'nav-link active' : 'nav-link' }}">
-                                <i class="nav-icon fas fa-cog"></i>
-                                <p>Setting <i class="right fas fa-angle-left"></i></p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('users') }}" class="{{ request()->routeIs('users') ? 'nav-link active' : 'nav-link' }}">
-                                        <i class="nav-icon fas fa-users"></i>
-                                        <p>Users</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('ta') }}" class="{{ request()->routeIs('ta') ? 'nav-link active' : 'nav-link' }}">
-                                        <i class="nav-icon fas fa-calendar-alt"></i>
-                                        <p>Tahun Ajaran</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('jurusan') }}" class="{{ request()->routeIs('jurusan') ? 'nav-link active' : 'nav-link' }}">
-                                        <i class="nav-icon fas fa-school"></i>
-                                        <p>Jurusan</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('kelas') }}" class="{{ request()->routeIs('kelas') ? 'nav-link active' : 'nav-link' }}">
-                                        <i class="nav-icon fas fa-house-user"></i>
-                                        <p>Kelas</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('jenis-kegiatan') }}" class="{{ request()->routeIs('jenis-kegiatan') ? 'nav-link active' : 'nav-link' }}">
-                                        <i class="nav-icon fas fa-tags"></i>
-                                        <p>Jenis Kegiatan</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li
+                                class="{{ request()->routeIs(['siswa', 'riwayat-siswa']) ? 'nav-item has-treeview menu-open' : 'nav-item' }}">
+                                <a href="#"
+                                    class="{{ request()->routeIs(['siswa', 'riwayat-siswa']) ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>Siswa <i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('siswa') }}"
+                                            class="{{ request()->routeIs('siswa') ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-users"></i>
+                                            <p>Data Siswa</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('riwayat-siswa') }}"
+                                            class="{{ request()->routeIs('riwayat-siswa') ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-user-md"></i>
+                                            <p>Riwayat Siswa</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li
+                                class="{{ request()->routeIs(['users', 'ta', 'jurusan', 'kelas', 'jenis-kegiatan']) ? 'nav-item has-treeview menu-open' : 'nav-item' }}">
+                                <a href="#"
+                                    class="{{ request()->routeIs(['users', 'ta', 'jurusan', 'kelas', 'jenis-kegiatan']) ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p>Setting <i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('users') }}"
+                                            class="{{ request()->routeIs('users') ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-users"></i>
+                                            <p>Users</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('ta') }}"
+                                            class="{{ request()->routeIs('ta') ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-calendar-alt"></i>
+                                            <p>Tahun Ajaran</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('jurusan') }}"
+                                            class="{{ request()->routeIs('jurusan') ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-school"></i>
+                                            <p>Jurusan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('kelas') }}"
+                                            class="{{ request()->routeIs('kelas') ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-house-user"></i>
+                                            <p>Kelas</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('jenis-kegiatan') }}"
+                                            class="{{ request()->routeIs('jenis-kegiatan') ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-tags"></i>
+                                            <p>Jenis Kegiatan</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         @endif
                     </ul>
                 </nav>
@@ -192,7 +223,8 @@
         <footer class="main-footer">
             <strong>Copyright &copy; 2023. Jurnal PKL SMKN 1 Bawang.</strong>
             <div class="float-right d-none d-sm-inline">
-                <small>Built with <i class="fas fa-heart text-pink"></i> <a href="https://www.instagram.com/indrakus_">Indra Kusuma</a></small>
+                <small>Built with <i class="fas fa-heart text-pink"></i> <a
+                        href="https://www.instagram.com/indrakus_">Indra Kusuma</a></small>
             </div>
         </footer>
     </div>
