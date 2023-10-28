@@ -31,4 +31,8 @@ class NilaiPkl extends Model
     {
         return $this->belongsTo(Tahun_ajaran::class);
     }
+    public function nilai_aspek()
+    {
+        return $this->hasMany(NilaiAspek::class);
+    }
 }

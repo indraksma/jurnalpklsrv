@@ -58,6 +58,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Nama Siswa</label>
+                            <div class="col-md-10">
+                                <select wire:model="siswa_id" id="siswa_id" class="form-control">
+                                    <option value="">-- Nama Siswa --</option>
+                                    @if ($siswa)
+                                        @foreach ($siswa as $ds)
+                                            <option value="{{ $ds->siswa_id }}">
+                                                {{ $ds->siswa->nama . ' - ' . $ds->siswa->kelas->nama_kelas }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <hr>
                 @if ($showWarning)
@@ -77,33 +93,75 @@
                         <div class="table-responsive col-md-12">
                             <table class="table table-bordered table-striped">
                                 <tr>
-                                    <th>Nama</th>
-                                    <th>NIS</th>
-                                    <th>Kelas</th>
+                                    <td width="30%">Nama</td>
+                                    <td>{{ $data_siswa->nama }}</td>
+                                </tr>
+                                <tr>
+                                    <td>NIS</td>
+                                    <td>{{ $data_siswa->nis }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Kelas</td>
+                                    <td>{{ $data_siswa->kelas->nama_kelas }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br>
+                        <div class="table-responsive col-md-12">
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <th>Tujuan Pembelajaran</th>
                                     <th width="10%">Nilai</th>
                                     <th>Catatan</th>
                                 </tr>
-                                @forelse ($data_siswa as $key => $siswa)
-                                    <tr>
-                                        <td>{{ $siswa->siswa->nama }}</td>
-                                        <td>{{ $siswa->siswa->nis }}</td>
-                                        <td>{{ $siswa->siswa->kelas->nama_kelas }}</td>
-                                        <td><input class="form-control" type="number"
-                                                wire:model.lazy="nilai.{{ $key }}" required /></td>
-                                        <td>
-                                            <input class="form-control" type="text"
-                                                wire:model.lazy="catatan.{{ $key }}" />
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">Tidak ada data</td>
-                                    </tr>
-                                @endforelse
+                                @if ($edit_nilai)
+                                    @forelse ($data_nilai as $key => $nilai)
+                                        <tr>
+                                            <td>{{ $nilai->tujuan_pembelajaran->tujuan_pembelajaran }}</td>
+                                            <td>
+                                                <input type="hidden" wire:model="tp_id.{{ $key }}" />
+                                                <input class="form-control" type="number"
+                                                    wire:model.lazy="nilai.{{ $key }}" required />
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="text"
+                                                    wire:model.lazy="catatan.{{ $key }}" />
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center">Tidak ada data</td>
+                                        </tr>
+                                    @endforelse
+                                @else
+                                    @forelse ($data_nilai as $key => $nilai)
+                                        <tr>
+                                            <td>{{ $nilai->tujuan_pembelajaran }}</td>
+                                            <td>
+                                                <input type="hidden" wire:model="tp_id.{{ $key }}" />
+                                                <input class="form-control" type="number"
+                                                    wire:model.lazy="nilai.{{ $key }}" required />
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="text"
+                                                    wire:model.lazy="catatan.{{ $key }}" />
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center">Tidak ada data</td>
+                                        </tr>
+                                    @endforelse
+                                @endif
                             </table>
                         </div>
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary">Simpan</button>
+                            @if ($edit_nilai)
+                                &nbsp;
+                                <a wire:click="resetData" class="btn btn-danger text-white"
+                                    onclick="confirm('Are you sure to reset?') || event.stopImmediatePropagation()">Reset</i></a>
+                            @endif
                         </div>
                     </div>
                 @endif

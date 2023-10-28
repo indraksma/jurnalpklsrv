@@ -11,18 +11,24 @@ use App\Models\Dudi;
 use App\Models\Jenis_kegiatan;
 use App\Models\Jurnal;
 use App\Models\Jurusan;
+use App\Models\NilaiAspek;
 use App\Models\NilaiPkl as ModelsNilaiPkl;
+use App\Models\Siswa;
 use App\Models\Siswa_pkl;
+use App\Models\TujuanPembelajaran;
 
 class NilaiPkl extends Component
 {
     use LivewireAlert;
 
-    public $jurusan, $data_siswa, $dudi, $data_dudi, $user_id, $ta_id, $penilai, $nilai_id;
+    public $jurusan, $data_siswa, $siswa, $siswa_id, $dudi, $data_dudi, $user_id, $ta_id, $penilai, $data_nilai;
     public $showSiswa = false;
     public $showWarning = false;
+    public $nilai_id = [];
+    public $tp_id = [];
     public $nilai = [];
     public $catatan = [];
+    public $edit_nilai = false;
 
     public function mount()
     {
@@ -49,68 +55,114 @@ class NilaiPkl extends Component
 
     public function updatedJurusan($id)
     {
-        $this->reset(['dudi', 'data_siswa']);
+        $this->reset(['dudi', 'data_siswa', 'nilai', 'catatan']);
+        $this->edit_nilai = false;
         $this->showSiswa = false;
         $this->showWarning = false;
         $this->dudi = '';
-        $dudi = Dudi::where('jurusan_id', $id)->get();
+        if (Auth::user()->hasRole(['pokja', 'guru'])) {
+            $userid = Auth::user()->id;
+            $dudipkl = Siswa_pkl::where('user_id', $userid)->where('tahun_ajaran_id', $this->ta_id)->pluck('dudi_id');
+            $dudi = Dudi::whereIn('id', $dudipkl)->where('jurusan_id', $id)->get();
+        } else {
+            $dudi = Dudi::where('jurusan_id', $id)->get();
+        }
         $this->data_dudi = $dudi;
     }
 
     public function updatedDudi($id)
     {
+        $this->edit_nilai = false;
         $this->showSiswa = false;
         $this->showWarning = false;
-        $this->reset('data_siswa');
-        $kunci = Jenis_kegiatan::where('kunci', 1)->first();
-        $cekjurnal = Jurnal::where('dudi_id', $id)->where('jenis_kegiatan_id', $kunci->id)->count();
-        if ($cekjurnal == 0) {
-            $this->showWarning = true;
+        $this->reset(['siswa_id', 'data_siswa', 'nilai', 'catatan']);
+
+        if (Auth::user()->hasRole(['pokja', 'guru'])) {
+            $this->siswa = Siswa_pkl::where('dudi_id', $id)->where('tahun_ajaran_id', $this->ta_id)->where('user_id', $this->user_id)->get();
         } else {
-            $ceknilai = ModelsNilaiPkl::where('dudi_id', $id)->get();
-            if ($ceknilai->isEmpty()) {
-                $this->data_siswa = Siswa_pkl::where('dudi_id', $id)->get();
+            $this->siswa = Siswa_pkl::where('dudi_id', $id)->where('tahun_ajaran_id', $this->ta_id)->get();
+        }
+    }
+
+    public function updatedSiswaId($id)
+    {
+        $this->edit_nilai = false;
+        $this->showSiswa = false;
+        $this->showWarning = false;
+        $this->reset(['data_siswa', 'data_nilai', 'nilai', 'catatan', 'tp_id', 'penilai']);
+        if ($id != '') {
+            $kunci = Jenis_kegiatan::where('kunci', 1)->first();
+            $cekjurnal = Jurnal::where('dudi_id', $this->dudi)->where('jenis_kegiatan_id', $kunci->id)->count();
+            if ($cekjurnal == 0) {
+                $this->showWarning = true;
             } else {
-                $this->data_siswa = $ceknilai;
-                foreach ($ceknilai as $key => $data) {
-                    $this->nilai_id[$key] = $data->id;
-                    $this->nilai[$key] = $data->nilai;
-                    $this->catatan[$key] = $data->catatan;
+                $ceknilai = ModelsNilaiPkl::where('siswa_id', $id)->first();
+                $this->data_siswa = Siswa::where('id', $id)->first();
+                if ($ceknilai == NULL) {
+                    $this->data_nilai = TujuanPembelajaran::where('tahun_ajaran_id', $this->ta_id)->get();
+                    $data_nilai = $this->data_nilai;
+                    foreach ($data_nilai as $key => $data) {
+                        $this->nilai_id[$key] = NULL;
+                        $this->tp_id[$key] = $data->id;
+                    }
+                } else {
+                    $this->edit_nilai = true;
+                    $this->data_nilai = NilaiAspek::where('nilai_pkl_id', $ceknilai->id)->get();
+                    $data_nilai = $this->data_nilai;
+                    foreach ($data_nilai as $key => $data) {
+                        $this->nilai_id[$key] = $data->id;
+                        $this->tp_id[$key] = $data->tujuan_pembelajaran_id;
+                        $this->nilai[$key] = $data->nilai;
+                        $this->catatan[$key] = $data->deskripsi;
+                    }
+                    $this->penilai = User::where('id', $ceknilai->user_id)->first()->name;
                 }
-                $this->penilai = User::where('id', $ceknilai[0]->user_id)->first()->name;
+                $this->showSiswa = true;
             }
-            $this->showSiswa = true;
         }
     }
 
     public function store()
     {
-        foreach ($this->data_siswa as $key => $siswa) {
+        $ceknilai = ModelsNilaiPkl::where('siswa_id', $this->data_siswa->id)->first();
+        if ($ceknilai == NULL) {
+            $nilai_pkl = ModelsNilaiPkl::create([
+                'user_id' => $this->user_id,
+                'tahun_ajaran_id' => $this->ta_id,
+                'siswa_id' => $this->data_siswa->id,
+                'kelas_id' => $this->data_siswa->kelas_id,
+                'dudi_id' => $this->dudi
+            ]);
+        } else {
+            $nilai_pkl = $ceknilai;
+        }
+        foreach ($this->data_nilai as $key => $nilai) {
             if ($this->catatan[$key]) {
-                ModelsNilaiPkl::updateOrcreate(['id' => $this->nilai_id[$key]], [
-                    'user_id' => $this->user_id,
-                    'tahun_ajaran_id' => $this->ta_id,
-                    'siswa_id' => $siswa->siswa_id,
-                    'kelas_id' => $siswa->siswa->kelas_id,
-                    'dudi_id' => $this->dudi,
+                NilaiAspek::updateOrcreate(['id' => $this->nilai_id[$key]], [
+                    'nilai_pkl_id' => $nilai_pkl->id,
+                    'tujuan_pembelajaran_id' => $this->tp_id[$key],
                     'nilai' => $this->nilai[$key],
-                    'catatan' => $this->catatan[$key],
+                    'deskripsi' => $this->catatan[$key],
                 ]);
             } else {
-                ModelsNilaiPkl::updateOrcreate(['id' => $this->nilai_id[$key]], [
-                    'user_id' => $this->user_id,
-                    'tahun_ajaran_id' => $this->ta_id,
-                    'siswa_id' => $siswa->siswa_id,
-                    'kelas_id' => $siswa->siswa->kelas_id,
-                    'dudi_id' => $this->dudi,
+                NilaiAspek::updateOrcreate(['id' => $this->nilai_id[$key]], [
+                    'nilai_pkl_id' => $nilai_pkl->id,
+                    'tujuan_pembelajaran_id' => $this->tp_id[$key],
                     'nilai' => $this->nilai[$key],
                     'catatan' => '-',
                 ]);
             }
         }
         $this->alert('success', 'Data nilai berhasil disimpan');
-        $this->reset(['nilai', 'catatan', 'dudi', 'jurusan', 'penilai']);
-        $this->dudi = '';
-        $this->showSiswa = false;
+    }
+
+    public function resetData()
+    {
+        $data_nilai = ModelsNilaiPkl::where('siswa_id', $this->siswa_id)->first();
+        NilaiAspek::where('nilai_pkl_id', $data_nilai->id)->delete();
+        ModelsNilaiPkl::where('id', $data_nilai->id)->delete();
+
+        $this->reset(['nilai_id', 'tp_id', 'nilai', 'catatan', 'edit_nilai']);
+        $this->alert('warning', 'Data berhasil dihapus');
     }
 }
