@@ -148,9 +148,9 @@
                                 </ul>
                             </li>
                             <li
-                                class="{{ request()->routeIs(['users', 'ta', 'jurusan', 'kelas', 'jenis-kegiatan']) ? 'nav-item has-treeview menu-open' : 'nav-item' }}">
+                                class="{{ request()->routeIs(['users', 'ta', 'tp', 'jurusan', 'kelas', 'jenis-kegiatan']) ? 'nav-item has-treeview menu-open' : 'nav-item' }}">
                                 <a href="#"
-                                    class="{{ request()->routeIs(['users', 'ta', 'jurusan', 'kelas', 'jenis-kegiatan']) ? 'nav-link active' : 'nav-link' }}">
+                                    class="{{ request()->routeIs(['users', 'ta', 'tp', 'jurusan', 'kelas', 'jenis-kegiatan']) ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-cog"></i>
                                     <p>Setting <i class="right fas fa-angle-left"></i></p>
                                 </a>
@@ -167,6 +167,13 @@
                                             class="{{ request()->routeIs('ta') ? 'nav-link active' : 'nav-link' }}">
                                             <i class="nav-icon fas fa-calendar-alt"></i>
                                             <p>Tahun Ajaran</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('tp') }}"
+                                            class="{{ request()->routeIs('tp') ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="nav-icon fas fa-list-alt"></i>
+                                            <p>Tujuan Pembelajaran</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
