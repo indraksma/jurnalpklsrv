@@ -24,11 +24,11 @@ Route::get('/', function () {
     }
 });
 
-// Route::get('login', [SsoController::class, 'showForm'])->name('login');
+Route::get('login', [SsoController::class, 'showForm'])->name('login');
 Route::get('sso', [SsoController::class, 'sso']);
 Route::get('ssocek', [SsoController::class, 'ssocek'])->name('ssocek');
 Route::get('ssoout', [SsoController::class, 'logout'])->name('ssoout');
-// Route::get('logout', [SsoController::class, 'logout'])->name('logout');
+Route::get('logout', [SsoController::class, 'logout'])->name('logout');
 Route::get('home', App\Http\Livewire\Jurnal::class)->name('home')->middleware('auth');
 
 Route::middleware(['auth', 'role:admin|pokja|guru|waka'])->group(function () {
@@ -50,6 +50,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('users', App\Http\Livewire\Setting\User::class)->name('users');
     //Route::post('import-user', [UserController::class, 'import'])->name('import-user');
     Route::get('ta', App\Http\Livewire\Setting\TahunAjaran::class)->name('ta');
+    Route::get('tp', App\Http\Livewire\Setting\TujuanPembelajaran::class)->name('tp');
     Route::get('jurusan', App\Http\Livewire\Setting\Jurusan::class)->name('jurusan');
     Route::get('kelas', App\Http\Livewire\Setting\Kelas::class)->name('kelas');
     Route::get('jenis-kegiatan', App\Http\Livewire\Setting\JenisKegiatan::class)->name('jenis-kegiatan');
