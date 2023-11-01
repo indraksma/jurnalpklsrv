@@ -111,8 +111,8 @@
                             <table class="table table-bordered table-striped">
                                 <tr>
                                     <th>Tujuan Pembelajaran</th>
-                                    <th width="10%">Nilai</th>
-                                    <th>Catatan</th>
+                                    <th width="20%">Nilai Pembimbing Sekolah</th>
+                                    <th width="20%">Nilai Pembimbing Lapangan</th>
                                 </tr>
                                 @if ($edit_nilai)
                                     @forelse ($data_nilai as $key => $nilai)
@@ -121,11 +121,11 @@
                                             <td>
                                                 <input type="hidden" wire:model="tp_id.{{ $key }}" />
                                                 <input class="form-control" type="number"
-                                                    wire:model.lazy="nilai.{{ $key }}" required />
+                                                    wire:model.lazy="nilai_p1.{{ $key }}" required />
                                             </td>
                                             <td>
                                                 <input class="form-control" type="text"
-                                                    wire:model.lazy="catatan.{{ $key }}" />
+                                                    wire:model.lazy="nilai_p2.{{ $key }}" />
                                             </td>
                                         </tr>
                                     @empty
@@ -140,11 +140,11 @@
                                             <td>
                                                 <input type="hidden" wire:model="tp_id.{{ $key }}" />
                                                 <input class="form-control" type="number"
-                                                    wire:model.lazy="nilai.{{ $key }}" required />
+                                                    wire:model.lazy="nilai_p1.{{ $key }}" required />
                                             </td>
                                             <td>
                                                 <input class="form-control" type="text"
-                                                    wire:model.lazy="catatan.{{ $key }}" />
+                                                    wire:model.lazy="nilai_p2.{{ $key }}" />
                                             </td>
                                         </tr>
                                     @empty

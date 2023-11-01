@@ -26,8 +26,8 @@ class NilaiPkl extends Component
     public $showWarning = false;
     public $nilai_id = [];
     public $tp_id = [];
-    public $nilai = [];
-    public $catatan = [];
+    public $nilai_p1 = [];
+    public $nilai_p2 = [];
     public $edit_nilai = false;
 
     public function mount()
@@ -55,7 +55,7 @@ class NilaiPkl extends Component
 
     public function updatedJurusan($id)
     {
-        $this->reset(['dudi', 'data_siswa', 'nilai', 'catatan']);
+        $this->reset(['dudi', 'data_siswa', 'nilai_p1', 'nilai_p2']);
         $this->edit_nilai = false;
         $this->showSiswa = false;
         $this->showWarning = false;
@@ -75,7 +75,7 @@ class NilaiPkl extends Component
         $this->edit_nilai = false;
         $this->showSiswa = false;
         $this->showWarning = false;
-        $this->reset(['siswa_id', 'data_siswa', 'nilai', 'catatan']);
+        $this->reset(['siswa_id', 'data_siswa', 'nilai_p1', 'nilai_p2']);
 
         if (Auth::user()->hasRole(['pokja', 'guru'])) {
             $this->siswa = Siswa_pkl::where('dudi_id', $id)->where('tahun_ajaran_id', $this->ta_id)->where('user_id', $this->user_id)->get();
@@ -89,7 +89,7 @@ class NilaiPkl extends Component
         $this->edit_nilai = false;
         $this->showSiswa = false;
         $this->showWarning = false;
-        $this->reset(['data_siswa', 'data_nilai', 'nilai', 'catatan', 'tp_id', 'penilai']);
+        $this->reset(['data_siswa', 'data_nilai', 'nilai_p1', 'nilai_p2', 'tp_id', 'penilai']);
         if ($id != '') {
             $kunci = Jenis_kegiatan::where('kunci', 1)->first();
             $cekjurnal = Jurnal::where('dudi_id', $this->dudi)->where('jenis_kegiatan_id', $kunci->id)->count();
@@ -112,8 +112,8 @@ class NilaiPkl extends Component
                     foreach ($data_nilai as $key => $data) {
                         $this->nilai_id[$key] = $data->id;
                         $this->tp_id[$key] = $data->tujuan_pembelajaran_id;
-                        $this->nilai[$key] = $data->nilai;
-                        $this->catatan[$key] = $data->deskripsi;
+                        $this->nilai_p1[$key] = $data->nilai_p1;
+                        $this->nilai_p2[$key] = $data->nilai_p2;
                     }
                     $this->penilai = User::where('id', $ceknilai->user_id)->first()->name;
                 }
@@ -137,23 +137,16 @@ class NilaiPkl extends Component
             $nilai_pkl = $ceknilai;
         }
         foreach ($this->data_nilai as $key => $nilai) {
-            if ($this->catatan[$key]) {
-                NilaiAspek::updateOrcreate(['id' => $this->nilai_id[$key]], [
-                    'nilai_pkl_id' => $nilai_pkl->id,
-                    'tujuan_pembelajaran_id' => $this->tp_id[$key],
-                    'nilai' => $this->nilai[$key],
-                    'deskripsi' => $this->catatan[$key],
-                ]);
-            } else {
-                NilaiAspek::updateOrcreate(['id' => $this->nilai_id[$key]], [
-                    'nilai_pkl_id' => $nilai_pkl->id,
-                    'tujuan_pembelajaran_id' => $this->tp_id[$key],
-                    'nilai' => $this->nilai[$key],
-                    'catatan' => '-',
-                ]);
-            }
+            NilaiAspek::updateOrcreate(['id' => $this->nilai_id[$key]], [
+                'nilai_pkl_id' => $nilai_pkl->id,
+                'tujuan_pembelajaran_id' => $this->tp_id[$key],
+                'nilai_p1' => $this->nilai_p1[$key],
+                'nilai_p2' => $this->nilai_p2[$key],
+            ]);
         }
         $this->alert('success', 'Data nilai berhasil disimpan');
+        $this->reset(['siswa_id', 'nilai_id', 'tp_id', 'nilai_p1', 'nilai_p2', 'edit_nilai']);
+        $this->showSiswa = false;
     }
 
     public function resetData()
@@ -162,7 +155,7 @@ class NilaiPkl extends Component
         NilaiAspek::where('nilai_pkl_id', $data_nilai->id)->delete();
         ModelsNilaiPkl::where('id', $data_nilai->id)->delete();
 
-        $this->reset(['nilai_id', 'tp_id', 'nilai', 'catatan', 'edit_nilai']);
+        $this->reset(['nilai_id', 'tp_id', 'nilai_p1', 'nilai_p2', 'edit_nilai']);
         $this->alert('warning', 'Data berhasil dihapus');
     }
 }

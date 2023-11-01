@@ -20,7 +20,7 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('jurnal');
     } else {
-        return view('auth.login');
+        return view('auth.loginsso');
     }
 });
 
