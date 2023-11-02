@@ -124,6 +124,7 @@ class NilaiPkl extends Component
 
     public function store()
     {
+        $nilaisum = 0;
         $ceknilai = ModelsNilaiPkl::where('siswa_id', $this->data_siswa->id)->first();
         if ($ceknilai == NULL) {
             $nilai_pkl = ModelsNilaiPkl::create([
@@ -143,7 +144,14 @@ class NilaiPkl extends Component
                 'nilai_p1' => $this->nilai_p1[$key],
                 'nilai_p2' => $this->nilai_p2[$key],
             ]);
+            $nilaisum = $nilaisum + (($this->nilai_p1[$key] + $this->nilai_p2[$key]) / 2);
         }
+        $nilaiakhir = $nilaisum / 4;
+
+        $updatenilai = ModelsNilaiPkl::where('id', $nilai_pkl->id)->first();
+        $updatenilai->nilai_akhir = $nilaiakhir;
+        $updatenilai->save();
+
         $this->alert('success', 'Data nilai berhasil disimpan');
         $this->reset(['siswa_id', 'nilai_id', 'tp_id', 'nilai_p1', 'nilai_p2', 'edit_nilai']);
         $this->showSiswa = false;

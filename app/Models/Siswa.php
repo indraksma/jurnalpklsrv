@@ -20,4 +20,10 @@ class Siswa extends Model
     {
         return $this->hasOne(Siswa_pkl::class);
     }
+
+
+    public function riwayat_siswa()
+    {
+        return $this->hasOne(RiwayatSiswa::class);
+    }
 }

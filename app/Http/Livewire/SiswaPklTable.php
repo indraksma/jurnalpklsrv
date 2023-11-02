@@ -38,6 +38,9 @@ class SiswaPklTable extends DataTableComponent
                 Column::make("Pembimbing", "user.name")
                     ->searchable()
                     ->sortable(),
+                Column::make("Riwayat Kesehatan", "siswa.riwayat_siswa.riwayat")
+                    ->searchable()
+                    ->sortable(),
                 Column::make("Tgl Mulai PKL", "awal_pkl")
                     ->searchable()
                     ->sortable()
@@ -64,6 +67,9 @@ class SiswaPklTable extends DataTableComponent
                     ->searchable()
                     ->sortable(),
                 Column::make("DUDI", "dudi.nama_dudi")
+                    ->searchable()
+                    ->sortable(),
+                Column::make("Riwayat Kesehatan", "siswa.riwayat_siswa.riwayat")
                     ->searchable()
                     ->sortable(),
                 Column::make("Tgl Mulai PKL", "awal_pkl")

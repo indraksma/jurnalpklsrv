@@ -16,7 +16,7 @@ class UbahNilaiAspeksTabel extends Migration
         Schema::table('nilai_aspeks', function (Blueprint $table) {
             $table->renameColumn('nilai', 'nilai_p1');
             $table->dropColumn('deskripsi');
-            $table->integer('nilai_p2')->after('nilai_p1');
+            $table->integer('nilai_p2');
         });
     }
 
