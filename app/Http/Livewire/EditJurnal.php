@@ -20,7 +20,7 @@ class EditJurnal extends Component
 
     public $idjurnal;
     protected $queryString = ['idjurnal'];
-    public $dudi, $user, $jeniskeg, $siswa, $dudi_list, $link_dokumentasi, $tanggal, $jurnal_detail;
+    public $dudi, $user, $jeniskeg, $siswa, $dudi_list, $tanggal, $jurnal_detail;
     public $siswaid = [];
     public $kehadiran = [];
     public $keterangan = [];
@@ -29,7 +29,6 @@ class EditJurnal extends Component
     protected $rules = [
         'dudi' => 'required',
         'jeniskeg' => 'required',
-        'link_dokumentasi' => 'required',
         'user' => 'required',
     ];
 
@@ -43,7 +42,6 @@ class EditJurnal extends Component
         } else {
             $this->tanggal = date_format(date_create($jurnal->tanggal), 'j F Y');
         }
-        $this->link_dokumentasi = $jurnal->link_dokumentasi;
         $jurnal_detail = JurnalDetail::where('jurnal_id', $jurnal->id)->get();
         $this->siswa = $jurnal_detail;
         $this->jurnal_detail = $jurnal_detail;
@@ -84,12 +82,10 @@ class EditJurnal extends Component
             $jurnal->update([
                 'tanggal'   => $this->tanggal,
                 'jenis_kegiatan_id'      => $this->jeniskeg,
-                'link_dokumentasi'      => $this->link_dokumentasi,
             ]);
         } else {
             $jurnal->update([
                 'jenis_kegiatan_id'      => $this->jeniskeg,
-                'link_dokumentasi'      => $this->link_dokumentasi,
             ]);
         }
         foreach ($this->jurnal_detail as $key => $jd) {

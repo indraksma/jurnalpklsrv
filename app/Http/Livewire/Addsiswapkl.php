@@ -26,6 +26,7 @@ class Addsiswapkl extends Component
         if (Auth::user()->hasRole('waka')) {
             $this->user_id = Auth::user()->id;
         }
+        $this->akhirpkl = "2024-04-30";
     }
 
     public function render()
@@ -46,6 +47,7 @@ class Addsiswapkl extends Component
     public function updatedAwalpkl($value)
     {
         $this->awalpkl = $value;
+        $this->showJKD = true;
     }
 
     public function updatedAkhirpkl($value)

@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Link Dokumentasi</label>
                             <div class="col-md-10">
@@ -78,7 +78,7 @@
                                     wire:model="link_dokumentasi" placeholder="Link Google Drive" />
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <hr>
                 @if ($showSiswa)

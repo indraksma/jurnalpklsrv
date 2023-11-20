@@ -6,6 +6,7 @@ use App\Models\Dudi;
 use App\Models\Jenis_kegiatan;
 use App\Models\Jurnal;
 use App\Models\JurnalDetail;
+use App\Models\LinkDokumentasi;
 use App\Models\Siswa_pkl;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -18,7 +19,7 @@ class AddJurnal extends Component
     use LivewireAlert;
 
     public $showSiswa = false;
-    public $dudi, $user, $jeniskeg, $siswa, $dudi_list, $link_dokumentasi, $tanggal;
+    public $dudi, $user, $jeniskeg, $siswa, $dudi_list, $tanggal;
     public $siswaid = [];
     public $kehadiran = [];
     public $keterangan = [];
@@ -29,7 +30,6 @@ class AddJurnal extends Component
     protected $rules = [
         'dudi' => 'required',
         'jeniskeg' => 'required',
-        'link_dokumentasi' => 'required',
         'user' => 'required',
         'tanggal' => 'required',
     ];
@@ -89,16 +89,8 @@ class AddJurnal extends Component
         $this->cekform();
     }
 
-    public function updatedLinkDokumentasi()
-    {
-        $this->cekform();
-    }
-
     private function cekform()
     {
-        if ($this->link_dokumentasi == "") {
-            $this->cekform = false;
-        }
         if ($this->dudi == "") {
             $this->cekform = false;
         }
@@ -120,12 +112,13 @@ class AddJurnal extends Component
         $this->validate();
 
         $ta = Tahun_ajaran::where('aktif', 1)->first();
+        $link_doc = LinkDokumentasi::where('tahun_ajaran_id', $ta->id)->where('user_id', $this->user)->first();
         $jurnal = Jurnal::create([
             'user_id'      => $this->user,
             'tahun_ajaran_id'  => $ta->id,
             'dudi_id'      => $this->dudi,
             'jenis_kegiatan_id'      => $this->jeniskeg,
-            'link_dokumentasi'      => $this->link_dokumentasi,
+            'link_dokumentasi'      => $link_doc->link_dokumentasi,
             'tanggal'      => $this->tanggal,
         ]);
         foreach ($this->siswaid as $key => $jd) {

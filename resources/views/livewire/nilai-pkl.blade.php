@@ -110,7 +110,7 @@
                         <div class="table-responsive col-md-12">
                             <table class="table table-bordered table-striped">
                                 <tr>
-                                    <th>Tujuan Pembelajaran</th>
+                                    <th>Elemen</th>
                                     <th width="20%">Nilai Pembimbing Sekolah</th>
                                     <th width="20%">Nilai Pembimbing Lapangan</th>
                                 </tr>

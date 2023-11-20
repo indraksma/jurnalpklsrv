@@ -50,15 +50,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Link Dokumentasi</label>
-                            <div class="col-md-10">
-                                <input class="form-control  @error('link_dokumentasi') is-invalid @enderror"
-                                    wire:model.lazy="link_dokumentasi" placeholder="Link Google Drive" />
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <hr>
                 <div class="row">

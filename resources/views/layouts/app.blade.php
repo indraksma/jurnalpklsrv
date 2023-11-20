@@ -122,6 +122,13 @@
                                 <p>Entri Nilai</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('doc') }}"
+                                class="{{ request()->routeIs('doc') ? 'nav-link active' : 'nav-link' }}">
+                                <i class="nav-icon fas fa-link"></i>
+                                <p>Link Dokumentasi</p>
+                            </a>
+                        </li>
                         @if (Auth::user()->hasRole('admin'))
                             <li
                                 class="{{ request()->routeIs(['siswa', 'riwayat-siswa']) ? 'nav-item has-treeview menu-open' : 'nav-item' }}">
