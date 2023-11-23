@@ -18,8 +18,8 @@ class LinkDokumentasi extends Component
 
     public function render()
     {
-        $linkdok = ModelLD::paginate('5');
-        $cekdata = ModelLD::select('tahun_ajaran_id')->get();
+        $linkdok = ModelLD::where('user_id', Auth::user()->id)->paginate('5');
+        $cekdata = ModelLD::select('tahun_ajaran_id')->where('user_id', Auth::user()->id)->get();
         if ($cekdata->isEmpty()) {
             $tahun_ajaran = Tahun_ajaran::all();
         } else {
