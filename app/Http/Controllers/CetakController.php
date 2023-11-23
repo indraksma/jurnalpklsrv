@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Models\Jurnal;
 use App\Models\Kelas;
+use App\Models\LinkDokumentasi;
 use PDF;
 
 class CetakController extends Controller
 {
-    public function cetak_laporan($siswaid, $ta, $bulan)
+    public function cetak_laporan($siswaid, $ta, $bulan, $userid)
     {
         $siswa = Siswa::where('id', $siswaid)->first();
+        $link_dokumentasi = LinkDokumentasi::where('tahun_ajaran_id', $ta)->where('user_id', $userid)->first();
         $jurnal_all = Jurnal::join('jurnal_details', 'jurnals.id', '=', 'jurnal_details.jurnal_id')->where('jurnals.tahun_ajaran_id', $ta)->where('jurnal_details.siswa_id', $siswaid)->whereMonth('tanggal', '=', $bulan)->get();
         $jurnal = Jurnal::join('jurnal_details', 'jurnals.id', '=', 'jurnal_details.jurnal_id')->where('jurnals.tahun_ajaran_id', $ta)->where('jurnal_details.siswa_id', $siswaid)->whereMonth('tanggal', '=', $bulan)->first();
-        $pdf = PDF::loadView('cetak.laporan_pembelajaran', ['jurnal' => $jurnal, 'jurnal_all' => $jurnal_all, 'bulan' => $bulan, 'siswa' => $siswa]);
+        $pdf = PDF::loadView('cetak.laporan_pembelajaran', ['jurnal' => $jurnal, 'jurnal_all' => $jurnal_all, 'bulan' => $bulan, 'siswa' => $siswa, 'links' => $link_dokumentasi]);
         $pdf->setPaper('A4', 'portrait');
         $namadokumen = $siswa->nama . '-laporan-pembelajaran-pkl-' . $bulan . '.pdf';
         return $pdf->download($namadokumen);

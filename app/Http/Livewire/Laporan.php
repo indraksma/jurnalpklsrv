@@ -109,7 +109,7 @@ class Laporan extends Component
     {
         $jurnal_all = Jurnal::join('jurnal_details', 'jurnals.id', '=', 'jurnal_details.jurnal_id')->where('jurnals.tahun_ajaran_id', $this->ta_id)->where('jurnal_details.siswa_id', $siswaid)->whereMonth('tanggal', '=', $this->bulan)->get();
         if (!$jurnal_all->isEmpty()) {
-            return redirect()->route('cetak.laporan2', [$siswaid, $this->ta_id, $this->bulan]);
+            return redirect()->route('cetak.laporan2', [$siswaid, $this->ta_id, $this->bulan, $this->user_id]);
         } else {
             $this->alert('error', 'Data tidak ditemukan!');
         }

@@ -15,7 +15,13 @@
             font-size: 12px;
         }
 
+        .coba {
+            width: 100%;
+            table-layout: fixed;
+        }
+
         .coba td {
+            word-wrap: break-word;
             padding-top: 7px;
             padding-bottom: 7px;
             padding-left: 5px;
@@ -68,16 +74,20 @@
             <td width="10px">:</td>
             <td>{{ $jurnal->user->name }}</td>
         </tr>
+        <tr>
+            <td width="150px">Link Dokumentasi</td>
+            <td width="10px">:</td>
+            <td>{{ $links->link_dokumentasi }}</td>
+        </tr>
     </table>
-    <table border="1" class="coba ctr" width="100%" cellspacing="0" style="margin-bottom: 50px;">
+    <table border="1" class="coba ctr" cellspacing="0" style="margin-bottom: 50px;">
         <tr style="font-weight: bold;">
             <td width="5%">No.</td>
-            <td width="10%">Hari/Tanggal</td>
-            <td width="10%">Jenis Kegiatan</td>
+            <td width="20%">Hari/Tanggal</td>
+            <td width="20%">Jenis Kegiatan</td>
             <td width="20%">Materi</td>
             <td width="10%">Kehadiran</td>
-            <td width="25%">Link Dokumentasi</td>
-            <td width="20%">Keterangan</td>
+            <td width="25%">Keterangan</td>
         </tr>
         <?php
         $no = 1;
@@ -88,8 +98,17 @@
                 <td>{{ \Carbon\Carbon::parse($data->tanggal)->isoFormat('dddd / D-M-Y') }}</td>
                 <td>{{ $data->jenis_kegiatan->nama_kegiatan }}</td>
                 <td>{{ $data->materi }}</td>
-                <td>{{ $data->kehadiran }}</td>
-                <td>{{ $data->link_dokumentasi }}</td>
+                <td>
+                    @if ($data->kehadiran == 'H')
+                        Hadir
+                    @elseif($data->kehadiran == 'I')
+                        Izin
+                    @elseif($data->kehadiran == 'S')
+                        Sakit
+                    @else
+                        Alpha
+                    @endif
+                </td>
                 <td>{{ $data->keterangan }}</td>
             </tr>
             <?php
