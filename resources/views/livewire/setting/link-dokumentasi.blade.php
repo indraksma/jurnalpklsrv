@@ -61,8 +61,8 @@
                                 @endforeach
                             </select>
                         @else
-                            <input type="text" id="tahun_ajaran_id" value="{{ $tahun_ajaran->tahun_ajaran }}"
-                                readonly />
+                            <input type="text" id="tahun_ajaran_id" class="form-control"
+                                value="{{ $tahun_ajaran->tahun_ajaran }}" readonly />
                         @endif
                     </div>
                     @error('tahun_ajaran_id')
