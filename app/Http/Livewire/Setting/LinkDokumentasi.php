@@ -20,10 +20,15 @@ class LinkDokumentasi extends Component
     {
         $linkdok = ModelLD::where('user_id', Auth::user()->id)->paginate('5');
         $cekdata = ModelLD::select('tahun_ajaran_id')->where('user_id', Auth::user()->id)->get();
-        if ($cekdata->isEmpty()) {
-            $tahun_ajaran = Tahun_ajaran::all();
+        if (Auth::user()->hasRole(['admin', 'waka'])) {
+            if ($cekdata->isEmpty()) {
+                $tahun_ajaran = Tahun_ajaran::all();
+            } else {
+                $tahun_ajaran = Tahun_ajaran::whereNotIn('id', $cekdata)->get();
+            }
         } else {
-            $tahun_ajaran = Tahun_ajaran::whereNotIn('id', $cekdata)->get();
+            $tahun_ajaran = Tahun_ajaran::where('aktif', 1)->first();
+            $this->tahun_ajaran_id = $tahun_ajaran->id;
         }
         return view('livewire.setting.link-dokumentasi', [
             'tahun_ajaran' => $tahun_ajaran,

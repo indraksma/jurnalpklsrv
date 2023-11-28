@@ -51,14 +51,19 @@
             <form method="POST" wire:submit.prevent="store()">
                 <div class="card-body">
                     <div class="input-group mb-3">
-                        <select wire:model="tahun_ajaran_id" id="tahun_ajaran_id" type="text" name="tahun_ajaran_id"
-                            value="{{ old('tahun_ajaran_id') }}"
-                            class="form-control @error('tahun_ajaran_id') is-invalid @enderror" required="required">
-                            <option value="">-- Pilih Tahun Ajaran --</option>
-                            @foreach ($tahun_ajaran as $ta)
-                                <option value="{{ $ta->id }}">{{ $ta->tahun_ajaran }}</option>
-                            @endforeach
-                        </select>
+                        @if (Auth::user()->hasRole(['admin', 'waka']))
+                            <select wire:model="tahun_ajaran_id" id="tahun_ajaran_id" name="tahun_ajaran_id"
+                                value="{{ old('tahun_ajaran_id') }}"
+                                class="form-control @error('tahun_ajaran_id') is-invalid @enderror" required="required">
+                                <option value="">-- Pilih Tahun Ajaran --</option>
+                                @foreach ($tahun_ajaran as $ta)
+                                    <option value="{{ $ta->id }}">{{ $ta->tahun_ajaran }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <input type="text" id="tahun_ajaran_id" value="{{ $tahun_ajaran->tahun_ajaran }}"
+                                readonly />
+                        @endif
                     </div>
                     @error('tahun_ajaran_id')
                         <div class="alert alert-danger">
