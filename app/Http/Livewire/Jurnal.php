@@ -27,7 +27,7 @@ class Jurnal extends Component
         $ta = Tahun_ajaran::where('aktif', 1)->first();
         $user_id = Auth::user()->id;
         $cek_siswa = Siswa_pkl::where('user_id', $user_id)->where('tahun_ajaran_id', $ta_id)->count();
-        $cek_doc = LinkDokumentasi::where('tahun_ajaran_id', $ta_id)->count();
+        $cek_doc = LinkDokumentasi::where('user_id', $user_id)->where('tahun_ajaran_id', $ta_id)->count();
         if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('waka')) {
             $jurnal = ModelsJurnal::where('tahun_ajaran_id', $ta_id)->orderBy('tanggal', 'DESC')->get();
         } else {
