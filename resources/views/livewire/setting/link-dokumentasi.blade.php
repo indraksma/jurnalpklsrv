@@ -42,51 +42,53 @@
 
         </div>
     </div>
-
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Tambah Data</h4>
+    @if ($disableinput == false)
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Tambah Data</h4>
+                </div>
+                <form method="POST" wire:submit.prevent="store()">
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            @if (Auth::user()->hasRole(['admin', 'waka']))
+                                <select wire:model="tahun_ajaran_id" id="tahun_ajaran_id" name="tahun_ajaran_id"
+                                    value="{{ old('tahun_ajaran_id') }}"
+                                    class="form-control @error('tahun_ajaran_id') is-invalid @enderror"
+                                    required="required">
+                                    <option value="">-- Pilih Tahun Ajaran --</option>
+                                    @foreach ($tahun_ajaran as $ta)
+                                        <option value="{{ $ta->id }}">{{ $ta->tahun_ajaran }}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <input type="text" id="tahun_ajaran_id" class="form-control"
+                                    value="{{ $tahun_ajaran->tahun_ajaran }}" readonly />
+                            @endif
+                        </div>
+                        @error('tahun_ajaran_id')
+                            <div class="alert alert-danger">
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                        <div class="input-group mb-3">
+                            <input wire:model.lazy="link_dokumentasi" id="link_dokumentasi" type="text"
+                                name="link_dokumentasi" value="{{ old('link_dokumentasi') }}"
+                                class="form-control @error('link_dokumentasi') is-invalid @enderror"
+                                placeholder="Link Dokumentasi" required="required">
+                        </div>
+                        @error('link_dokumentasi')
+                            <div class="alert alert-danger">
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" wire:click="resetForm()" class="btn btn-warning">Reset</button>
+                        <button type="button" wire:click.prevent="store()" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
-            <form method="POST" wire:submit.prevent="store()">
-                <div class="card-body">
-                    <div class="input-group mb-3">
-                        @if (Auth::user()->hasRole(['admin', 'waka']))
-                            <select wire:model="tahun_ajaran_id" id="tahun_ajaran_id" name="tahun_ajaran_id"
-                                value="{{ old('tahun_ajaran_id') }}"
-                                class="form-control @error('tahun_ajaran_id') is-invalid @enderror" required="required">
-                                <option value="">-- Pilih Tahun Ajaran --</option>
-                                @foreach ($tahun_ajaran as $ta)
-                                    <option value="{{ $ta->id }}">{{ $ta->tahun_ajaran }}</option>
-                                @endforeach
-                            </select>
-                        @else
-                            <input type="text" id="tahun_ajaran_id" class="form-control"
-                                value="{{ $tahun_ajaran->tahun_ajaran }}" readonly />
-                        @endif
-                    </div>
-                    @error('tahun_ajaran_id')
-                        <div class="alert alert-danger">
-                            <span>{{ $message }}</span>
-                        </div>
-                    @enderror
-                    <div class="input-group mb-3">
-                        <input wire:model.lazy="link_dokumentasi" id="link_dokumentasi" type="text"
-                            name="link_dokumentasi" value="{{ old('link_dokumentasi') }}"
-                            class="form-control @error('link_dokumentasi') is-invalid @enderror"
-                            placeholder="Link Dokumentasi" required="required">
-                    </div>
-                    @error('link_dokumentasi')
-                        <div class="alert alert-danger">
-                            <span>{{ $message }}</span>
-                        </div>
-                    @enderror
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" wire:click="resetForm()" class="btn btn-warning">Reset</button>
-                    <button type="button" wire:click.prevent="store()" class="btn btn-primary">Save</button>
-                </div>
-            </form>
         </div>
-    </div>
+    @endif
 </div>
