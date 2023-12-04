@@ -28,8 +28,8 @@ class LinkDokumentasi extends Component
                 $tahun_ajaran = Tahun_ajaran::whereNotIn('id', $cekdata)->get();
             }
         } else {
-            $cekdata = ModelLD::where('tahun_ajaran_id', $tahun_ajaran->id)->where('user_id', Auth::user()->id)->get();
             $tahun_ajaran = Tahun_ajaran::where('aktif', 1)->first();
+            $cekdata = ModelLD::where('tahun_ajaran_id', $tahun_ajaran->id)->where('user_id', Auth::user()->id)->get();
             $this->tahun_ajaran_id = $tahun_ajaran->id;
             if ($cekdata->isNotEmpty()) {
                 $this->disableinput = TRUE;
