@@ -37,6 +37,7 @@ Route::middleware(['auth', 'role:admin|pokja|guru|waka'])->group(function () {
     Route::get('dudi', App\Http\Livewire\Dudi::class)->name('dudi');
     Route::get('jurnal', App\Http\Livewire\Jurnal::class)->name('jurnal');
     Route::get('jurnal/tambah', App\Http\Livewire\AddJurnal::class)->name('jurnal.tambah');
+    Route::get('jurnal/susulan', App\Http\Livewire\SusulanJurnal::class)->name('jurnal.susulan');
     Route::get('jurnal/edit', App\Http\Livewire\EditJurnal::class)->name('jurnal.edit');
     Route::get('nilai', App\Http\Livewire\NilaiPkl::class)->name('nilai');
     Route::get('laporan', App\Http\Livewire\Laporan::class)->name('laporan');

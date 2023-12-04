@@ -20,7 +20,9 @@
                         <h5 class="mb-0">Data Jurnal Tahun Ajaran {{ $ta->tahun_ajaran }}</h5>
                     </div>
                     <div class="col-6 text-right"><a href="{{ route('jurnal.tambah') }}"><button
-                                class="btn btn-sm btn-success">Tambah</button></a></div>
+                                class="btn btn-sm btn-success">Tambah</button></a>&nbsp;<a
+                            href="{{ route('jurnal.susulan') }}"><button
+                                class="btn btn-sm btn-info">Susulan</button></a></div>
                 </div>
             </div>
             <div class="card-body">

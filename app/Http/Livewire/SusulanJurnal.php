@@ -14,7 +14,7 @@ use App\Models\Tahun_ajaran;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class AddJurnal extends Component
+class SusulanJurnal extends Component
 {
     use LivewireAlert;
 
@@ -44,17 +44,12 @@ class AddJurnal extends Component
     {
         $ta = Tahun_ajaran::where('aktif', 1)->first();
         $jeniskeg = Jenis_kegiatan::all();
-        if (Auth::user()->hasRole(['admin', 'waka'])) {
-            $dudi_list = Dudi::all();
-            $user = User::all();
-        } else {
-            $dudi_pkl = Siswa_pkl::where('user_id', Auth::user()->id)->groupBy('dudi_id')->pluck('dudi_id');
-            $dudi_list = Dudi::whereIn('id', $dudi_pkl)->get();
-            $this->dudi_list = $dudi_list;
-            $user = User::where('id', auth()->user()->id)->first();
-            $this->user = $user->id;
-        }
-        return view('livewire.add-jurnal', [
+        $dudi_pkl = Siswa_pkl::where('user_id', Auth::user()->id)->groupBy('dudi_id')->pluck('dudi_id');
+        $dudi_list = Dudi::whereIn('id', $dudi_pkl)->get();
+        $this->dudi_list = $dudi_list;
+        $user = User::where('id', auth()->user()->id)->first();
+        $this->user = $user->id;
+        return view('livewire.susulan-jurnal', [
             'ta' => $ta,
             'data_dudi' => $dudi_list,
             'users' => $user,
@@ -109,6 +104,15 @@ class AddJurnal extends Component
             }
         } else {
             $this->showSiswa = false;
+        }
+    }
+
+    public function updatedTanggal()
+    {
+        if ($this->tanggal > date('Y-m-d')) {
+            $this->alert('warning', 'Tanggal susulan tidak boleh melebihi hari ini!');
+            $this->reset('tanggal');
+            $this->tanggal = date('Y-m-d');
         }
     }
 
