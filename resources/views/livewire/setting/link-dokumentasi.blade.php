@@ -4,38 +4,40 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="{{ $disableinput == false ? 'col-6' : 'col-12' }}">
                         <h3 class="card-title">Data Link Dokumentasi</h3>
                     </div>
                 </div>
             </div>
 
             <div class="card-body p-0">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Tahun Ajaran</th>
-                            <th>Link Dokumentasi</th>
-                            <th style="width: 150px">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($linkdok as $item)
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ $item->tahun_ajaran->tahun_ajaran }}</td>
-                                <td>{{ $item->link_dokumentasi }}</td>
-                                <td>
-                                    <button wire:click="delete({{ $item->id }})" class="btn btn-sm btn-danger"
-                                        onclick="confirm('Are you sure to delete?') || event.stopImmediatePropagation()"><i
-                                            class="fas fa-trash"></i></button>
-                                </td>
+                                <th>Tahun Ajaran</th>
+                                <th>Link Dokumentasi</th>
+                                <th style="width: 150px">Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="col-sm-12 col-md-12">
-                    <div class="dataTables_paginate paging_simple_numbers">
-                        {{ $linkdok->links() }}
+                        </thead>
+                        <tbody>
+                            @foreach ($linkdok as $item)
+                                <tr>
+                                    <td>{{ $item->tahun_ajaran->tahun_ajaran }}</td>
+                                    <td>{{ $item->link_dokumentasi }}</td>
+                                    <td>
+                                        <button wire:click="delete({{ $item->id }})" class="btn btn-sm btn-danger"
+                                            onclick="confirm('Are you sure to delete?') || event.stopImmediatePropagation()"><i
+                                                class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            {{ $linkdok->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
