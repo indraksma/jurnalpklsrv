@@ -1,6 +1,6 @@
 @section('title', 'Jurnal Pembelajaran PKL')
 <div>
-    @if (($cek_siswa == 0 || $cek_doc == 0) && !Auth::user()->hasRole('admin'))
+    @if (($cek_siswa == 0 || $cek_doc == 0) && !Auth::user()->hasRole(['admin', 'waka']))
         <div class="alert alert-warning">
             <h5><i class="icon fas fa-exclamation-triangle"></i> Peringatan!</h5>
             Anda belum menyelesaikan pengaturan bimbingan pkl, harap lakukan setting pada halaman berikut.<br>
